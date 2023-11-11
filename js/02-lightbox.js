@@ -8,9 +8,10 @@ const markup = galleryItems.map(
 contaiter.insertAdjacentHTML("beforeend", markup.join(" "));
 
 
-contaiter.addEventListener("click", onClick);
-const lightbox = new SimpleLightbox(".gallery__link a" , {
-    captionsData: "alt ",
-    captionPosition:  "bottom",
-    captionDelay : 250
-});
+    const gallery= new SimpleLightbox(".gallery__link" , {
+        captionsData: "alt",
+        captionPosition:  "bottom",
+        captionDelay : 250
+    });
+
+
