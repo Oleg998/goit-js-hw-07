@@ -6,3 +6,11 @@ const markup = galleryItems.map(
     `<li class="gallery__item"><a class="gallery__link"  href="${original}"><img class="gallery__image" src="${preview}"  alt="${description}"></a></li> `
 );
 contaiter.insertAdjacentHTML("beforeend", markup.join(" "));
+
+
+
+const lightbox = new SimpleLightbox(".gallery__link a" , {
+    captionsData: "alt ",
+    captionPosition:  "bottom",
+    captionDelay : 250
+});
