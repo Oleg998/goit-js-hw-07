@@ -1,12 +1,13 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
-const contaiter = document.querySelector(".gallery");
+const container = document.querySelector(".gallery");
+let instance;
 const markup = galleryItems.map(
   ({ preview, description, original }) =>
     `<li class="gallery__item"><a class="gallery__link"  href="${original}"><img class="gallery__image" src="${preview}" data-source="${original}" alt="${description}"></a></li> `
 );
-contaiter.insertAdjacentHTML("beforeend", markup.join(" "));
-contaiter.addEventListener("click", onClick);
+container.insertAdjacentHTML("beforeend", markup.join(" "));
+container.addEventListener("click", onClick);
 
 function onClick(evt) {
   evt.preventDefault();
@@ -15,16 +16,22 @@ function onClick(evt) {
   }
   const galleryID = evt.target.dataset.source;
   const descriptionID = evt.target.getAttribute("alt");
-  const instance = basicLightbox.create(`
-    <div class="modal"> 
-    <img src="${galleryID}" alt="${descriptionID}">
-    </div>
-`);
-  instance.show();
-  contaiter.addEventListener("keydown", onKey);
-  function onKey(evt) {
-    if (evt.code === "Escape") {
-      instance.close();
+  instance = basicLightbox.create(
+    `<img src="${galleryID}" alt="${descriptionID}"> `,
+    {
+      onShow: () => {
+        container.addEventListener("keydown", onKey);
+      },
+      onClose: () => {
+        container.removeEventListener("keydown", onKey);
+      },
     }
+  );
+  instance.show();
+}
+
+function onKey(evt) {
+  if (evt.code === "Escape") {
+    instance.close();
   }
 }
